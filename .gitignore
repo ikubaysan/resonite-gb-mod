@@ -1,0 +1,25 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+
+*.exe
+*.suo
+*.pyc
+*.pyx
+
+/ResoniteGBMod/ResoniteGBMod/bin
+/ResoniteGBMod/ResoniteGBMod/obj
+/ResoniteGBMod/packages
+/ResoniteGBMod/.vs/
+/ResoniteGBApp/packages/
+
+/ResoniteGBApp/ResoniteGBApp/bin
+/ResoniteGBApp/ResoniteGBApp/obj
+/ResoniteGBApp/ResoniteGBAppTests/bin/Debug
+/ResoniteGBApp/ResoniteGBAppTests/obj/Debug
+/ResoniteGBApp/.vs/
+
+/ResoniteGBController/venv/
+/ResoniteGBController/.idea/
