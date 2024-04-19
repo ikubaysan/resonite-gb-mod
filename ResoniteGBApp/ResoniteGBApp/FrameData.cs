@@ -52,9 +52,12 @@ namespace ResoniteGBApp
         private static int GetGameBoyColorIndex(Color originalColor)
         {
             int brightness = (int)(0.299 * originalColor.R + 0.587 * originalColor.G + 0.114 * originalColor.B);
-            if (brightness >= 192) return 0;  // White
-            if (brightness >= 128) return 1;  // Light Gray
-            if (brightness >= 64) return 2;  // Dark Gray
+            if (brightness >= 192) 
+                return 0;  // White
+            if (brightness >= 80) 
+                return 1;  // Light Gray
+            if (brightness >= 64) 
+                return 2;  // Dark Gray
             return 3;                         // Black
         }
 
