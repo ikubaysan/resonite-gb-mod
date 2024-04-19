@@ -123,7 +123,7 @@ namespace ResoniteGBApp
             if (previewCheckBox.Checked)
             {
                 // Preview is enabled, so convert pixel data to Bitmap and set to PictureBox (SLOW)
-                pictureBox1.Image = FrameData.SetPixelDataToBitmap(FRAME_WIDTH, FRAME_HEIGHT);
+                pictureBox1.Image = FrameData.SetPixelDataToBitmap();
                 previewPixelsChangedCountLabel.Text = latestPreviewPixelsChangedCount.ToString();
             }
 

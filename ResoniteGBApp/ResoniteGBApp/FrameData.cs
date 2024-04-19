@@ -154,7 +154,6 @@ namespace ResoniteGBApp
         private static int IdentifySpan(byte[] bmpBytes, int x, int y, int stride, int width, int bytesPerPixel, int targetColorIndex)
         {
             int offset = y * stride + x * bytesPerPixel;
-            Color targetColor = GameBoyColors[targetColorIndex];
             while (x < width)
             {
                 Color currentColor = Color.FromArgb(bmpBytes[offset + 2], bmpBytes[offset + 1], bmpBytes[offset]);
@@ -348,7 +347,7 @@ namespace ResoniteGBApp
                 ApplyRowHeight(_simulatedCanvas, row.Key, row.Value);
         }
 
-        public static Bitmap SetPixelDataToBitmap(int width, int height)
+        public static Bitmap SetPixelDataToBitmap()
         {
 
             if (rowExpansionAmounts == null) InitializeRowExpansionAmounts();
