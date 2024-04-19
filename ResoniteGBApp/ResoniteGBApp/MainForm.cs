@@ -33,7 +33,6 @@ namespace ResoniteGBApp
 
         public static double brightnessFactor = 1.0;
         public double darkenFactor = 0.0;
-        public bool scanlinesEnabled = true;
         public string targetWindowTitle = "mGBA";
         private int titleBarHeight = 30;
         private int borderWidth = 8;
@@ -105,7 +104,7 @@ namespace ResoniteGBApp
             MemoryMappedFileManager._lastFrameTime = DateTime.Now;
 
             // Generate pixel data (SLOW)
-            var(pixelData, contiguousRangePairs) = FrameData.GeneratePixelDataFromWindow(targetWindowTitle, borderWidth, titleBarHeight,  FRAME_WIDTH, FRAME_HEIGHT, forceFullFrame, rowExpansionCheckBox.Checked, brightnessFactor, scanlinesEnabled, darkenFactor);
+            var(pixelData, contiguousRangePairs) = FrameData.GeneratePixelDataFromWindow(targetWindowTitle, borderWidth, titleBarHeight,  FRAME_WIDTH, FRAME_HEIGHT, forceFullFrame, rowExpansionCheckBox.Checked, brightnessFactor, darkenFactor);
             if (pixelData == null) return;
 
             // Write to MemoryMappedFile
@@ -171,36 +170,6 @@ namespace ResoniteGBApp
             if (!double.TryParse(brightnessTextBox.Text, out brightnessFactor) || brightnessFactor < 0 || brightnessFactor > 2.0) return;
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-            // A value between 0 (no change) and 1 (fully black). Adjust as needed.
-            if (!double.TryParse(textBox3.Text, out darkenFactor) || darkenFactor < 0 || darkenFactor > 1.0)
-            {
-                // Handle the error case. For this example, we'll default to 0.0 if invalid or out of expected range
-                darkenFactor = 0.0;
-            }
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (scanlinesEnabledCheckBox.Checked)
-            {
-                scanlinesEnabled = true;
-                // Scanlines are enabled
-                if (!double.TryParse(textBox3.Text, out darkenFactor) || darkenFactor < 0 || darkenFactor > 1.0)
-                {
-                    darkenFactor = 0.5;
-                    textBox3.Text = "0.5";
-                }
-            }
-            else
-            {
-                scanlinesEnabled = false;
-                // Scanlines are disabled
-                darkenFactor = 0.0;
-                textBox3.Text = "0.0";
-            }
-        }
 
         private void targetWindowTextBox_TextChanged(object sender, EventArgs e)
         {

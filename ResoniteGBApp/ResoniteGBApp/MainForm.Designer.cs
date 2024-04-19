@@ -60,11 +60,8 @@
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.targetFramerateTextBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.brightnessTextBox = new System.Windows.Forms.TextBox();
-            this.scanlinesEnabledCheckBox = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -156,11 +153,8 @@
             this.tabPage1.Controls.Add(this.checkBox3);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.targetFramerateTextBox);
-            this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.textBox3);
             this.tabPage1.Controls.Add(this.brightnessTextBox);
-            this.tabPage1.Controls.Add(this.scanlinesEnabledCheckBox);
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.checkBox1);
             this.tabPage1.Controls.Add(this.label2);
@@ -393,15 +387,6 @@
             this.targetFramerateTextBox.Text = "36";
             this.targetFramerateTextBox.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(557, 347);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(96, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Scanline Darkness";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -411,15 +396,6 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "Brightness";
             // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(560, 375);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 10;
-            this.textBox3.Text = "0";
-            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
-            // 
             // brightnessTextBox
             // 
             this.brightnessTextBox.Location = new System.Drawing.Point(420, 375);
@@ -428,19 +404,6 @@
             this.brightnessTextBox.TabIndex = 9;
             this.brightnessTextBox.Text = "1";
             this.brightnessTextBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
-            // 
-            // scanlinesEnabledCheckBox
-            // 
-            this.scanlinesEnabledCheckBox.AutoSize = true;
-            this.scanlinesEnabledCheckBox.Checked = true;
-            this.scanlinesEnabledCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.scanlinesEnabledCheckBox.Location = new System.Drawing.Point(581, 308);
-            this.scanlinesEnabledCheckBox.Name = "scanlinesEnabledCheckBox";
-            this.scanlinesEnabledCheckBox.Size = new System.Drawing.Size(72, 30);
-            this.scanlinesEnabledCheckBox.TabIndex = 8;
-            this.scanlinesEnabledCheckBox.Text = "Scanlines\r\nEnabled";
-            this.scanlinesEnabledCheckBox.UseVisualStyleBackColor = true;
-            this.scanlinesEnabledCheckBox.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // label3
             // 
@@ -512,10 +475,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox scanlinesEnabledCheckBox;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox brightnessTextBox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox targetFramerateTextBox;

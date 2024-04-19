@@ -85,7 +85,7 @@ namespace ResoniteGBApp
             Z = packedXYZ % 1000;
         }
 
-        private static Bitmap CaptureWindow(string targetWindowTitle, int borderWidth, int titleBarHeight, double brightnessFactor, bool scanlinesEnabled, double darkenFactor)
+        private static Bitmap CaptureWindow(string targetWindowTitle, int borderWidth, int titleBarHeight, double brightnessFactor, double darkenFactor)
         {
             IntPtr hWnd = IntPtr.Zero;
             NativeMethods.RECT rect = new NativeMethods.RECT { Top = 0, Left = 0, Right = 0, Bottom = 0 };
@@ -155,22 +155,6 @@ namespace ResoniteGBApp
                 }
             }
 
-            // Adding scanline effect
-            if (scanlinesEnabled && darkenFactor > 0.0)
-            {
-                for (int y = 0; y < bmp.Height; y += 2)
-                {
-                    for (int x = 0; x < bmp.Width; x++)
-                    {
-                        Color original = bmp.GetPixel(x, y);
-                        int newRed = (int)(original.R * (1 - darkenFactor));
-                        int newGreen = (int)(original.G * (1 - darkenFactor));
-                        int newBlue = (int)(original.B * (1 - darkenFactor));
-
-                        bmp.SetPixel(x, y, Color.FromArgb(newRed, newGreen, newBlue));
-                    }
-                }
-            }
             return bmp;
         }
 
@@ -204,9 +188,9 @@ namespace ResoniteGBApp
         }
 
 
-        static public (List<int>, List<int>) GeneratePixelDataFromWindow(string targetWindowTitle, int borderWidth, int titleBarHeight, int width, int height, bool forceFullFrame, bool rowExpansionEnabled, double brightnessFactor, bool scanlinesEnabled, double darkenFactor)
+        static public (List<int>, List<int>) GeneratePixelDataFromWindow(string targetWindowTitle, int borderWidth, int titleBarHeight, int width, int height, bool forceFullFrame, bool rowExpansionEnabled, double brightnessFactor, double darkenFactor)
         {
-            Bitmap bmp = CaptureWindow(targetWindowTitle, borderWidth, titleBarHeight, brightnessFactor, scanlinesEnabled, darkenFactor);
+            Bitmap bmp = CaptureWindow(targetWindowTitle, borderWidth, titleBarHeight, brightnessFactor, darkenFactor);
             if (bmp == null)
             {
                 return (null, null);
