@@ -27,9 +27,9 @@ namespace ResoniteGBMod
         [AutoRegisterConfigKey]
         private static readonly ModConfigurationKey<bool> ENABLED = new ModConfigurationKey<bool>("enabled", "Enable mod", () => true);
         [AutoRegisterConfigKey]
-        private static readonly ModConfigurationKey<int> CANVAS_SLOT_WIDTH = new ModConfigurationKey<int>("canvas_slot_width", "Pixel width of the canvas slot", () => 256);
+        private static readonly ModConfigurationKey<int> CANVAS_SLOT_WIDTH = new ModConfigurationKey<int>("canvas_slot_width", "Pixel width of the canvas slot", () => 160);
         [AutoRegisterConfigKey]
-        private static readonly ModConfigurationKey<int> CANVAS_SLOT_HEIGHT = new ModConfigurationKey<int>("canvas_slot_height", "Pixel height of the canvas slot", () => 240);
+        private static readonly ModConfigurationKey<int> CANVAS_SLOT_HEIGHT = new ModConfigurationKey<int>("canvas_slot_height", "Pixel height of the canvas slot", () => 144);
         [AutoRegisterConfigKey]
         private static readonly ModConfigurationKey<string> CANVAS_SLOT_NAME = new ModConfigurationKey<string>("canvas_slot_name", "Name of the canvas slot", () => "GBUIXCanvas");
 
@@ -40,8 +40,9 @@ namespace ResoniteGBMod
         private static int canvasSlotHeightCachedConfigOption;
         private static string canvasSlotNameCachedConfigOption;
 
+        private static colorX[] GameBoyColors = new colorX[4];
+
         // Fixed size array for all possible RGB values
-        private static colorX[] _allColors;
         private static bool _allColorsInitialized = false;
         private static bool _reInitializeNeeded = false;
 
@@ -67,20 +68,21 @@ namespace ResoniteGBMod
         private static void initializeAllColors()
         {
             Msg("Initializing all colors");
-            _allColors = new colorX[256 * 256 * 256];
-            // Initialize the fixed size array
-            int index = 0;
-            for (int r = 0; r < 256; r++)
-            {
-                for (int g = 0; g < 256; g++)
-                {
-                    for (int b = 0; b < 256; b++)
-                    {
-                        _allColors[index++] = new colorX(r / 1000f, g / 1000f, b / 1000f, 1, ColorProfile.Linear);
 
-                    }
-                }
-            }
+            /*
+            private static readonly Color[] GameBoyColors = new Color[] {
+                Color.FromArgb(255, 255, 255), // White
+                Color.FromArgb(192, 192, 192), // Light Gray
+                Color.FromArgb(96, 96, 96),    // Dark Gray
+                Color.FromArgb(0, 0, 0)        // Black
+            };
+            */
+
+            GameBoyColors[0] = new colorX(255 / 1000f, 255 / 1000f, 255 / 1000f, 1, ColorProfile.Linear); // White
+            GameBoyColors[1] = new colorX(192 / 1000f, 192 / 1000f, 192 / 1000f, 1, ColorProfile.Linear); // Light Gray
+            GameBoyColors[2] = new colorX(96 / 1000f, 96 / 1000f, 96 / 1000f, 1, ColorProfile.Linear); // Dark Gray
+            GameBoyColors[3] = new colorX(0 / 1000f, 0 / 1000f, 0 / 1000f, 1, ColorProfile.Linear); // Black
+
             _allColorsInitialized = true;
             Msg("Finished initializing all colors");
         }
@@ -261,18 +263,29 @@ namespace ResoniteGBMod
                         horizontalLayoutComponent.PaddingBottom.Value = canvasSlotHeight - i - 1;
 
                         // Create new slots for each column in the horizontal layout and add them to the cache
-                        rawGraphicComponentCache[i] = new RawGraphic[canvasSlotWidth];
+                        rawGraphicComponentCache[i] = new RawGraphic[canvasSlotWidth * GameBoyColors.Length];
 
-                        // Add a slot for each column in the horizontal layout
+                        // Add a slot for each column in the horizontal layout (each pixel)
                         for (int j = 0; j < canvasSlotWidth; j++)
                         {
                             Slot verticalSlot = horizontalLayoutSlot.AddSlot("VerticalSlot" + j);
                             verticalSlot.AttachComponent<RectTransform>();
-                            RawGraphic rawGraphicComponent = verticalSlot.AttachComponent<RawGraphic>();
-                            rawGraphicComponentCache[i][j] = rawGraphicComponent;
-                            // Set the tint to a random color
-                            colorX randomColor = new colorX((float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble(), 1);
-                            rawGraphicComponent.Color.Value = randomColor;
+
+
+                            // Create a Raw Graphic component for each color
+
+                            for (int k = 0; k < GameBoyColors.Length; k++)
+                            {
+                                RawGraphic rawGraphicComponent = verticalSlot.AttachComponent<RawGraphic>();
+                                rawGraphicComponentCache[i][j + k] = rawGraphicComponent;
+                                rawGraphicComponent.Color.Value = GameBoyColors[k];
+
+                                // Enable the 4th color (black) by default
+                                if (k == GameBoyColors.Length - 1)
+                                    rawGraphicComponent.Enabled = true;
+                                else 
+                                    rawGraphicComponent.Enabled = false;
+                            }
                         }
                     }
                     Msg("Created new HorizontalLayouts according to the height constant: " + canvasSlotHeight);
@@ -364,27 +377,17 @@ namespace ResoniteGBMod
                     return;
                 }
 
-
-                static void UnpackXYZ(Int32 packedXYZ, out int X, out int Y, out int Z)
-                {
-                    X = (packedXYZ / 1000000) % 1000;
-                    Y = (packedXYZ / 1000) % 1000;
-                    Z = packedXYZ % 1000;
-                }
-
                 static void SetPixelDataToCanvas(Canvas __instance)
                 {
                     int i = 0;
                     int colorIndex;
                     int packedxStartYSpan, xStart, y, spanLength;
                     int x, xEnd;
-                    colorX cachedColor;
                     canvasModificationInProgress = true;
 
                     while (i < readPixelDataLength)
                     {
                         colorIndex = readPixelData[i++];
-                        cachedColor = _allColors[colorIndex];
                         while (i < readPixelDataLength && readPixelData[i] >= 0)
                         {
                             packedxStartYSpan = readPixelData[i++];
@@ -396,7 +399,19 @@ namespace ResoniteGBMod
 
                             for (x = xStart; x < xEnd; x++)
                             {
-                                rawGraphicComponentCache[y][x].Color.Value = cachedColor;
+
+                                for (int k = 0; k < GameBoyColors.Length; k++)
+                                {
+                                    // Set the color of the pixel by enabling the correct RawGraphic component
+                                    if (k == colorIndex)
+                                    {
+                                        rawGraphicComponentCache[y][x * GameBoyColors.Length + k].Enabled = true;
+                                    }
+                                    else
+                                    {
+                                        rawGraphicComponentCache[y][x * GameBoyColors.Length + k].Enabled = false;
+                                    }
+                                }
                             }
                         }
                         i++; // Skip the negative delimiter. We've hit a new color.
