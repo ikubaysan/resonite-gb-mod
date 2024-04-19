@@ -40,37 +40,22 @@ namespace ResoniteGBApp
             cachedRowPixels = new Dictionary<int, List<Color>>();
         }
 
-        private static Color ClosestGameBoyColor(Color originalColor)
+        // Define GameBoy greyscale colors as indices
+        private static readonly Color[] GameBoyColors = new Color[] {
+            Color.FromArgb(255, 255, 255), // White
+            Color.FromArgb(192, 192, 192), // Light Gray
+            Color.FromArgb(96, 96, 96),    // Dark Gray
+            Color.FromArgb(0, 0, 0)        // Black
+        };
+
+        // Get the index of the closest GameBoy color
+        private static int GetGameBoyColorIndex(Color originalColor)
         {
             int brightness = (int)(0.299 * originalColor.R + 0.587 * originalColor.G + 0.114 * originalColor.B);
-            if (brightness >= 192) return Color.FromArgb(255, 255, 255);  // White
-            if (brightness >= 128) return Color.FromArgb(192, 192, 192);  // Light Gray
-            if (brightness >= 64) return Color.FromArgb(96, 96, 96);     // Dark Gray
-            return Color.FromArgb(0, 0, 0);                               // Black
-        }
-
-
-        public static Int32 GetIndexFromColor(Color color)
-        {
-            return color.R * 256 * 256 + color.G * 256 + color.B;
-        }
-
-        public static Color GetColorFromIndex(int index)
-        {
-            int r = index / (256 * 256);
-            int g = (index / 256) % 256;
-            int b = index % 256;
-            return Color.FromArgb(r, g, b);
-        }
-
-
-
-        // A helper function to make sure RGB values stay in the 0-255 range
-        private static int Clamp(int value, int min, int max)
-        {
-            if (value < min) return min;
-            if (value > max) return max;
-            return value;
+            if (brightness >= 192) return 0;  // White
+            if (brightness >= 128) return 1;  // Light Gray
+            if (brightness >= 64) return 2;  // Dark Gray
+            return 3;                         // Black
         }
 
         static int PackXYZ(int x, int y, int z)
@@ -149,8 +134,8 @@ namespace ResoniteGBApp
                     for (int x = 0; x < bmp.Width; x++)
                     {
                         Color original = bmp.GetPixel(x, y);
-                        Color closestGBColor = ClosestGameBoyColor(original);  // Get closest GameBoy color
-                        bmp.SetPixel(x, y, closestGBColor);
+                        int colorIndex = GetGameBoyColorIndex(original);
+                        bmp.SetPixel(x, y, GameBoyColors[colorIndex]);  // Set the pixel to the exact color using index
                     }
                 }
             }
@@ -178,7 +163,7 @@ namespace ResoniteGBApp
         {
             // Checks if a span list for this RGB value already exists. If not, create a new one.
             // Finally, adds the span to the list.
-            int RGBIndex = GetIndexFromColor(pixel);
+            int RGBIndex = GetGameBoyColorIndex(pixel);
             if (!rgbToSpans.TryGetValue(RGBIndex, out var spanList))
             {
                 spanList = new List<int>();
@@ -524,7 +509,7 @@ namespace ResoniteGBApp
                     UnpackXYZ(packedxStartYSpan, out int xStart, out int y, out int spanLength);
                     for (int x = xStart; x < xStart + spanLength; x++)
                     {
-                        Color newPixelColor = GetColorFromIndex(colorIndex);
+                        Color newPixelColor = GameBoyColors[colorIndex];
                         _simulatedCanvas.SetPixel(x, y, newPixelColor);
                         nPixelsChanged++;
                     }
