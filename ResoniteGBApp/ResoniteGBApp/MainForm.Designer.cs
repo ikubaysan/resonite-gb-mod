@@ -1,6 +1,6 @@
 ﻿namespace ResoniteGBApp
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -80,7 +80,7 @@
             this.targetWindowTextBox.Name = "targetWindowTextBox";
             this.targetWindowTextBox.Size = new System.Drawing.Size(100, 20);
             this.targetWindowTextBox.TabIndex = 0;
-            this.targetWindowTextBox.Text = "FCEUX";
+            this.targetWindowTextBox.Text = "mGBA";
             this.targetWindowTextBox.TextChanged += new System.EventHandler(this.targetWindowTextBox_TextChanged);
             // 
             // contextMenuStrip1
@@ -181,9 +181,7 @@
             // 
             this.consolePresetComboBox.FormattingEnabled = true;
             this.consolePresetComboBox.Items.AddRange(new object[] {
-            "GB",
-            "GB",
-            "GBA"});
+            "GB"});
             this.consolePresetComboBox.Location = new System.Drawing.Point(3, 374);
             this.consolePresetComboBox.Name = "consolePresetComboBox";
             this.consolePresetComboBox.Size = new System.Drawing.Size(100, 21);
@@ -482,13 +480,13 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tabControl1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Resonite GB App";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);

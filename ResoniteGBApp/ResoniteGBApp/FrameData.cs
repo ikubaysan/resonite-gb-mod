@@ -127,12 +127,12 @@ namespace ResoniteGBApp
             int width = adjustedRight - adjustedLeft;
             int height = adjustedBottom - adjustedTop;
 
-            Bitmap bmp = new Bitmap(Form1.FRAME_WIDTH, Form1.FRAME_HEIGHT, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap bmp = new Bitmap(MainForm.FRAME_WIDTH, MainForm.FRAME_HEIGHT, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Graphics g = Graphics.FromImage(bmp);
             g.CopyFromScreen(adjustedLeft, adjustedTop, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
 
 
-            if (Form1.brightnessFactor != 1.0)
+            if (MainForm.brightnessFactor != 1.0)
             {
                 for (int y = 0; y < bmp.Height; y++)
                 {
@@ -463,7 +463,7 @@ namespace ResoniteGBApp
         private static void InitializeRowExpansionAmounts()
         {
             rowExpansionAmounts = new Dictionary<int, int>();
-            for (int i = 0; i < Form1.FRAME_HEIGHT; i++)
+            for (int i = 0; i < MainForm.FRAME_HEIGHT; i++)
             {
                 rowExpansionAmounts[i] = 1;
             }
@@ -549,7 +549,7 @@ namespace ResoniteGBApp
             }
 
             Console.WriteLine("Preview pixels changed: " + nPixelsChanged);
-            Form1.latestPreviewPixelsChangedCount = nPixelsChanged;
+            MainForm.latestPreviewPixelsChangedCount = nPixelsChanged;
 
             ApplyRowHeights(_simulatedCanvas);
             return _simulatedCanvas;

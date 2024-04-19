@@ -15,14 +15,14 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ResoniteGBApp
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private Timer _timer;
         private Random _random;
         private int MAX_FRAME_WIDTH = 999;
         private int MAX_FRAME_HEIGHT = 999;
-        public static int FRAME_WIDTH = 256;
-        public static int FRAME_HEIGHT = 240;
+        public static int FRAME_WIDTH = 160;
+        public static int FRAME_HEIGHT = 144;
         private int TargetFramerate = 36;
 
         private int PixelDataMemoryMappedFileSize;
@@ -34,7 +34,7 @@ namespace ResoniteGBApp
         public static double brightnessFactor = 1.0;
         public double darkenFactor = 0.0;
         public bool scanlinesEnabled = true;
-        public string targetWindowTitle = "FCEUX";
+        public string targetWindowTitle = "mGBA";
         private int titleBarHeight = 30;
         private int borderWidth = 8;
 
@@ -44,7 +44,7 @@ namespace ResoniteGBApp
         private DateTime _lastTickTime = DateTime.Now;
         public static int latestPreviewPixelsChangedCount = 0;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             _random = new Random();
@@ -241,18 +241,6 @@ namespace ResoniteGBApp
         {
             string selectedValue = consolePresetComboBox.SelectedItem.ToString();
             if (selectedValue == "GB")
-            {
-                targetWindowTextBox.Text = "FCEUX";
-                canvasWidthTextBox.Text = "256";
-                canvasHeightTextBox.Text = "240";
-            }
-            else if (selectedValue == "GBA")
-            {
-                targetWindowTextBox.Text = "mGBA";
-                canvasWidthTextBox.Text = "240";
-                canvasHeightTextBox.Text = "160";
-            }
-            else if (selectedValue == "GB")
             {
                 targetWindowTextBox.Text = "mGBA";
                 canvasWidthTextBox.Text = "160";
