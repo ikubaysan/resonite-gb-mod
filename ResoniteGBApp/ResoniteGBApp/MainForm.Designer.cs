@@ -212,7 +212,7 @@
             this.canvasWidthTextBox.Name = "canvasWidthTextBox";
             this.canvasWidthTextBox.Size = new System.Drawing.Size(100, 20);
             this.canvasWidthTextBox.TabIndex = 34;
-            this.canvasWidthTextBox.Text = "256";
+            this.canvasWidthTextBox.Text = "160";
             this.canvasWidthTextBox.TextChanged += new System.EventHandler(this.canvasWidthTextBox_TextChanged);
             // 
             // canvasHeightLabel
@@ -230,7 +230,7 @@
             this.canvasHeightTextBox.Name = "canvasHeightTextBox";
             this.canvasHeightTextBox.Size = new System.Drawing.Size(100, 20);
             this.canvasHeightTextBox.TabIndex = 32;
-            this.canvasHeightTextBox.Text = "240";
+            this.canvasHeightTextBox.Text = "144";
             this.canvasHeightTextBox.TextChanged += new System.EventHandler(this.canvasHeightTextBox_TextChanged);
             // 
             // label11

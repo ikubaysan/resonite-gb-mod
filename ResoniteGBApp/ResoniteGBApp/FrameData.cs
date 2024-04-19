@@ -40,6 +40,16 @@ namespace ResoniteGBApp
             cachedRowPixels = new Dictionary<int, List<Color>>();
         }
 
+        private static Color ClosestGameBoyColor(Color originalColor)
+        {
+            int brightness = (int)(0.299 * originalColor.R + 0.587 * originalColor.G + 0.114 * originalColor.B);
+            if (brightness >= 192) return Color.FromArgb(255, 255, 255);  // White
+            if (brightness >= 128) return Color.FromArgb(192, 192, 192);  // Light Gray
+            if (brightness >= 64) return Color.FromArgb(96, 96, 96);     // Dark Gray
+            return Color.FromArgb(0, 0, 0);                               // Black
+        }
+
+
         public static Int32 GetIndexFromColor(Color color)
         {
             return color.R * 256 * 256 + color.G * 256 + color.B;
@@ -132,18 +142,15 @@ namespace ResoniteGBApp
             g.CopyFromScreen(adjustedLeft, adjustedTop, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
 
 
-            if (MainForm.brightnessFactor != 1.0)
+            if (MainForm.brightnessFactor != 1.0 || true) // 'true' added to ensure color modification runs
             {
                 for (int y = 0; y < bmp.Height; y++)
                 {
                     for (int x = 0; x < bmp.Width; x++)
                     {
                         Color original = bmp.GetPixel(x, y);
-                        int newRed = Clamp((int)(original.R * brightnessFactor), 0, 255);
-                        int newGreen = Clamp((int)(original.G * brightnessFactor), 0, 255);
-                        int newBlue = Clamp((int)(original.B * brightnessFactor), 0, 255);
-
-                        bmp.SetPixel(x, y, Color.FromArgb(newRed, newGreen, newBlue));
+                        Color closestGBColor = ClosestGameBoyColor(original);  // Get closest GameBoy color
+                        bmp.SetPixel(x, y, closestGBColor);
                     }
                 }
             }
