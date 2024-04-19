@@ -22,7 +22,6 @@ namespace ResoniteGBApp
 
         private static Dictionary<int, int> rowExpansionAmounts;
         private static List<int> contiguousRangePairs;
-        private static List<int> skippedRows;
         private static Dictionary<int, List<Color>> cachedRowPixels;
 
 
@@ -36,7 +35,6 @@ namespace ResoniteGBApp
         {
             rowExpansionAmounts = null;
             contiguousRangePairs = new List<int>();
-            skippedRows = new List<int>();
             cachedRowPixels = new Dictionary<int, List<Color>>();
         }
 
@@ -207,10 +205,10 @@ namespace ResoniteGBApp
             int spanStart;
             int offset;
 
+            // For each row...
             for (int y = 0; y < height; y++)
             {
-                if (skippedRows.Contains(y)) continue;
-
+                // For each pixel in the row...
                 for (int x = 0; x < width;)
                 {
                     offset = y * stride + x * bytesPerPixel;
@@ -280,7 +278,6 @@ namespace ResoniteGBApp
             _cachedBitmap = bmp;
 
             contiguousRangePairs = new List<int>();
-            skippedRows = new List<int>();
 
             foreach (var kvp in rgbToSpans)
             {
