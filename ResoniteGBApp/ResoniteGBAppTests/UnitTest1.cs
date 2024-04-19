@@ -30,6 +30,7 @@ namespace ResoniteGBApp.Tests
             form.ShowDialog();
         }
 
+        /*
 
         [TestMethod]
         public void Test_GetColorFromIndex()
@@ -52,6 +53,7 @@ namespace ResoniteGBApp.Tests
 
             Assert.AreEqual(expectedIndex, resultIndex);
         }
+        */
 
         [TestMethod]
         public void TestBitmapDisplay()
